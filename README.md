@@ -12,6 +12,6 @@ Update the environment
     DB_PASSWORD=12345
     DB_HOST=127.0.0.1
 
-Install requirements
+Install requirements.
 Create migrations and apply them into database.
 
