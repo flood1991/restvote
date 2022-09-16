@@ -1,6 +1,6 @@
 Getting Started
 Development
-Uses the default Django development server.
+
 
 Update the environment
 .env Example
