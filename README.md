@@ -25,9 +25,15 @@ Getting Started with docker
 
 
 run in terminal:
+
+
 docker-compose run web python manage.py migrate
+
+
 docker-compose run web python manage.py createsuperuser
+
 docker-compose up
+
 open website 127.0.0.1:8000
 
 
