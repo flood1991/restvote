@@ -129,10 +129,10 @@ WSGI_APPLICATION = 'inforce.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('DB_NAME'),
+        'NAME': os.getenv('POSTGRES_DB'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
+        'HOST': 'db',
         'PORT': os.getenv('DB_PORT'),
     }
 }

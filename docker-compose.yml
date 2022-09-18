@@ -1,7 +1,20 @@
-version: '3'
+version: "3"
 
 services:
+  db:
+    image: postgres:14-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5424:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - PG_DATA=/var/lib/postgresql/data/pgdata
   web:
+    restart: always
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
@@ -9,19 +22,10 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_NAME=postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     depends_on:
       - db
-  db:
-    image: postgres:12.0-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    environment:
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_NAME=postgres
-
 volumes:
   postgres_data:
