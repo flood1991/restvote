@@ -16,9 +16,14 @@ Getting Started without docker
 
 
 change settings.py (databases host must be '127.0.0.1')
+
 Install requirements.
+
 Create migrations and apply them into database.
+
 Run server
+
+
 
 Getting Started with docker
 
