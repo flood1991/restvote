@@ -19,13 +19,7 @@ class RestaurantSerializer(serializers.ModelSerializer):
 class MenuSerializer(serializers.ModelSerializer):
     class Meta:
         model = Menu
-        fields = ('file', 'created_at', 'restaurant')
-
-
-class VoteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Vote
-        fields = ('menu',)
+        fields = ('id', 'file', 'created_at', 'restaurant')
 
 
 class ResultSerializer(serializers.ModelSerializer):

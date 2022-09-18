@@ -1,9 +1,13 @@
-from rest_framework import generics
+from rest_framework import generics, permissions
 from datetime import datetime
+
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from db.models import Restaurant, Employee, Menu, Vote
 from .serializers import (RestaurantSerializer,
                           EmployeeSerializer,
-                          MenuSerializer, VoteSerializer, ResultSerializer,
+                          MenuSerializer, ResultSerializer,
                           )
 
 
@@ -27,36 +31,28 @@ class TodayMenuAPIView(generics.ListAPIView):
     queryset = Menu.objects.filter(created_at__iso_week_day=datetime.today().isoweekday())
 
 
-class VoteAPIView(generics.ListCreateAPIView):
-    serializer_class = VoteSerializer
-    queryset = Vote.objects.all()
+class VoteAPIView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
 
-    def perform_create(self, serializer):
-        serializer.save(employee=self.request.user)
-
-
-'''
-class VoteAPIView(generics.ListCreateAPIView):
-    serializer_class = VoteSerializer
-
-    def get_queryset(self):
-        employee = self.request.user
-        menu = Menu.objects.filter(id=menu_id)
+    def get(self, request, menu_id):
+        employee = request.user
+        print(employee)
+        menu = Menu.objects.get(id=menu_id)
         if Vote.objects.filter(
-                menu__id=menu_id,
                 employee__email=employee,
-                created_at__date=datetime.today()).exists():
-            return {'message': 'voted'}
+                created_at=datetime.today()).exists():
+            res = {'message': 'voted'}
+            return Response(res)
         else:
             Vote.objects.create(
                 employee=employee,
-                menu=menu
+                menu=menu,
             )
             menu.save()
-            return {'success': 'True'}
-'''
+            res = {'success': 'True'}
+            return Response(res)
 
 
 class ResultAPIView(generics.ListAPIView):
     serializer_class = ResultSerializer
-    queryset = Menu.objects.filter(created_at=datetime.today()).order_by('-votes')
+    queryset = Menu.objects.filter(created_at=datetime.today()).order_by('votes')
